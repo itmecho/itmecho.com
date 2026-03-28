@@ -1,0 +1,47 @@
+---
+import NavLinks from "#/components/nav-links/NavLinks.astro";
+import BaseLayout from "./BaseLayout.astro";
+---
+
+<BaseLayout>
+  <div class="page-container">
+    <header>
+      <a href="/"><h1>itmecho</h1></a>
+      <NavLinks />
+    </header>
+    <main>
+      <slot />
+    </main>
+  </div>
+</BaseLayout>
+
+<style>
+  .page-container {
+    max-width: 1024px;
+    margin: 0 auto;
+  }
+
+  header {
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    > a {
+      text-decoration: none;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-family: var(--font-pixelated);
+      color: var(--text);
+    }
+
+    nav {
+    }
+  }
+
+  main {
+    padding: 2rem;
+  }
+</style>

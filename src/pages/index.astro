@@ -1,7 +1,51 @@
 ---
-import Layout from "#/Layout.astro";
+import Icon from "#/components/icons/Icon.astro";
+import NavLinks from "#/components/nav-links/NavLinks.astro";
+import BaseLayout from "#/layouts/BaseLayout.astro";
 ---
 
-<Layout>
-  <h1>itmecho</h1>
-</Layout>
+<BaseLayout>
+  <main class="container">
+    <div>
+      <h1>itmecho</h1>
+      <NavLinks />
+      <div class="external-links">
+        <a
+          href="https://github.com/itmecho"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Icon icon="github" size={36} />
+        </a>
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  h1 {
+    font-family: var(--font-pixelated);
+    font-weight: 400;
+    font-size: 4rem;
+  }
+
+  .external-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+
+    a {
+      color: var(--text);
+    }
+  }
+</style>

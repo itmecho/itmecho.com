@@ -1,0 +1,17 @@
+---
+import MainLayout from "#/layouts/MainLayout.astro";
+import {getCollection} from 'astro:content';
+
+const posts = await getCollection('blog');
+---
+
+<MainLayout>
+  <h2>Blog</h2>
+  {posts.map(p => <a href="TODO">{p.data.title}</a>)}
+</MainLayout>
+
+<style>
+  h2 {
+    font-size: 2rem;
+  }
+</style>

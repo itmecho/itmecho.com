@@ -1,0 +1,46 @@
+---
+const { pathname } = Astro.url;
+const links = [
+  { path: "/blog", label: "Blog" },
+  { path: "/photos", label: "Photos" },
+];
+---
+
+<nav>
+  {
+    links.map(({ path, label }) => (
+      <a href={path} class:list={[path === pathname && "active"]}>
+        {label}
+      </a>
+    ))
+  }
+</nav>
+
+<style>
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+
+    a {
+      border-bottom: 2px solid transparent;
+      transition:
+        color 0.2s ease-in-out,
+        border-bottom-color 0.2s ease-in-out;
+      color: var(--green);
+      font-size: 1.25rem;
+      text-decoration: none;
+
+      &.active {
+        border-bottom-color: var(--green);
+      }
+
+      &:hover,
+      &.active:hover {
+        color: var(--teal);
+        border-bottom-color: var(--teal);
+      }
+    }
+  }
+</style>
