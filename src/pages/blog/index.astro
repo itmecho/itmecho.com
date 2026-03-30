@@ -1,18 +1,34 @@
 ---
-import Layout from '@layouts/Layout.astro';
-import { Post } from '@lib/blog.ts';
-import BlogPostList from '@components/BlogPostList.astro';
+import { getCollection } from "astro:content";
+import { isEqual, format } from "date-fns";
 
-const allPosts = await Astro.glob('./*.mdx');
-const posts: Post[] = allPosts
-  .filter((p) => !p.frontmatter.draft)
-  .sort(
-    (a, b) =>
-      new Date(b.frontmatter.date).valueOf() -
-      new Date(a.frontmatter.date).valueOf()
-  );
+import BlogList from "#/components/blog/BlogList.astro";
+import TagsList from "#/components/blog/TagsList.astro";
+import MainLayout from "#/layouts/MainLayout.astro";
+
+const allPosts = await getCollection("blog");
+const posts = import.meta.env.DEV
+  ? allPosts
+  : allPosts.filter((p) => !!p.data.pubDate);
 ---
 
-<Layout title='Blog'>
-  <BlogPostList posts={posts} />
-</Layout>
+<MainLayout>
+  <h2>Blog</h2>
+  <div class="content">
+    <BlogList posts={posts} />
+    <TagsList />
+  </div>
+</MainLayout>
+
+<style>
+  h2 {
+    margin-bottom: 2rem;
+    font-size: 3rem;
+    font-weight: 300;
+  }
+  .content {
+    display: grid;
+    grid-template-columns: auto 20%;
+    gap: 2rem;
+  }
+</style>

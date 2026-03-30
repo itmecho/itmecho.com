@@ -1,0 +1,47 @@
+---
+interface Props {
+  text: string;
+  size?: "md" | "lg";
+  hoverable?: boolean;
+}
+
+const { text, hoverable, size = "md" } = Astro.props;
+---
+
+<span
+  class:list={[
+    hoverable && "hoverable",
+    {
+      md: size === "md",
+      lg: size === "lg",
+    },
+  ]}>{text}</span
+>
+
+<style>
+  span {
+    display: inline-block;
+    background-color: var(--lavender);
+    border-radius: var(--radius-full);
+    color: var(--base);
+
+    &.hoverable {
+      will-change: background-color;
+      transition: background-color var(--transition);
+
+      &:hover {
+        background-color: var(--blue);
+      }
+    }
+
+    &.md {
+      padding: 0.1rem 0.4rem;
+      font-size: 0.8rem;
+    }
+
+    &.lg {
+      padding: 0.2rem 0.6rem;
+      font-size: 1rem;
+    }
+  }
+</style>

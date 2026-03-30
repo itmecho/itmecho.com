@@ -1,0 +1,60 @@
+---
+type Item = {
+  label: string;
+  quantity: number;
+};
+
+interface Props {
+  items: Item[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="ratio">
+  {
+    items.map((item, i) => (
+      <div class="item">
+        {i > 0 && <p class="divider">:</p>}
+        <div>
+          <p class="quantity">{item.quantity}</p>
+          <p class="label">{item.label}</p>
+        </div>
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .ratio {
+    display: inline-flex;
+    margin-bottom: 1rem;
+    box-shadow: 0 0 12px -4px var(--lavender) inset;
+
+    padding: 1.5rem 2rem;
+    background-color: var(--surface0);
+    border-radius: 0.5rem;
+  }
+  .item {
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    & p {
+      line-height: initial;
+    }
+  }
+  .divider {
+    margin: -10px 1.5rem 0;
+    font-size: 3rem;
+    line-height: 3rem;
+  }
+  .quantity {
+    font-size: 3rem;
+    font-weight: 600;
+    color: var(--lavender);
+  }
+  .label {
+    color: var(--subtext0);
+  }
+</style>

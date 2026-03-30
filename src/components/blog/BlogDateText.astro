@@ -1,0 +1,16 @@
+---
+import { presentDate } from "#/utils/present";
+import type { CollectionEntry } from "astro:content";
+import { isEqual } from "date-fns";
+
+interface Props {
+  post: CollectionEntry<"blog">;
+}
+
+const { post } = Astro.props;
+---
+
+{post.data.pubDate ? presentDate(post.data.pubDate) : "draft"}{
+  !isEqual(post.data.pubDate ?? 0, post.data.updatedDate) &&
+    ` (updated ${presentDate(post.data.updatedDate)})`
+}

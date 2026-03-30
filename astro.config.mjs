@@ -1,16 +1,28 @@
-import { defineConfig } from 'astro/config';
+// @ts-check
+import { defineConfig, fontProviders } from "astro/config";
 
-import tailwind from '@astrojs/tailwind';
-import mdx from '@astrojs/mdx';
-
-import { remarkReadingTime } from './plugins/remark-reading-time.mjs';
+import mdx from "@astrojs/mdx";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [
-    mdx({
-      remarkPlugins: [remarkReadingTime],
-    }),
-    tailwind(),
+  fonts: [
+    {
+      provider: fontProviders.fontsource(),
+      name: "Pixelify Sans",
+      cssVariable: "--font-pixelated",
+    },
+    {
+      provider: fontProviders.fontsource(),
+      name: "Figtree",
+      cssVariable: "--font-sans",
+      weights: [300, 400, 500, 600, 700],
+    },
   ],
+  markdown: {
+    shikiConfig: {
+      theme: "catppuccin-mocha",
+    },
+  },
+  integrations: [mdx()],
 });
+

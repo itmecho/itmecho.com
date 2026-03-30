@@ -1,0 +1,59 @@
+---
+import Icon from "#/components/icons/Icon.astro";
+---
+
+<button onclick="toggleTheme()">
+  <span data-theme-target="light"><Icon icon="sun" /></span>
+  <span data-theme-target="dark"><Icon icon="moon" /></span>
+</button>
+
+<script is:inline>
+  function toggleTheme() {
+    const currentTheme = document.body.dataset.theme;
+    document.body.classList.add("transition");
+    if (currentTheme === "dark") {
+      document.body.dataset.theme = "light";
+      window.localStorage.setItem("theme", "light");
+    } else {
+      document.body.dataset.theme = "dark";
+      window.localStorage.setItem("theme", "dark");
+    }
+    setTimeout(() => {
+      document.body.classList.remove("transition");
+    }, 200);
+  }
+  document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+      const currentTheme = window.localStorage.getItem("theme") ?? "dark";
+      document.body.dataset.theme = currentTheme;
+    },
+    { once: true },
+  );
+</script>
+
+<style>
+  button {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    padding: 0.5rem;
+    border-radius: 0.4rem;
+    background-color: var(--surface0);
+    cursor: pointer;
+    color: var(--text);
+    transition:
+      background-color 0.2s ease-in-out,
+      color 0.2s ease-in-out;
+
+    &:hover {
+      background-color: var(--surface1);
+    }
+  }
+  body[data-theme="dark"] button :global(span[data-theme-target="dark"]) {
+    display: none;
+  }
+  body[data-theme="light"] button :global(span[data-theme-target="light"]) {
+    display: none;
+  }
+</style>
