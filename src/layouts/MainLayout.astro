@@ -17,15 +17,18 @@ import BaseLayout from "./BaseLayout.astro";
 
 <style>
   .page-container {
-    max-width: 1024px;
+    max-width: 1280px;
     margin: 0 auto;
   }
 
   header {
+    position: sticky;
+    top: 0;
     padding: 1rem 2rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    background-color: var(--base);
 
     > a {
       text-decoration: none;

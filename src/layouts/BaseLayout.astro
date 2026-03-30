@@ -1,7 +1,7 @@
 ---
 import ResetStyles from "#/components/styles/ResetStyles.astro";
 import PageLoadThemeScript from "#/components/styles/PageLoadThemeScript.astro";
-import ThemeStyles from "#/components/styles/ThemeStyles.astro";
+import CssVars from "#/components/styles/CssVars.astro";
 import { Font } from "astro:assets";
 import ThemeSwitcher from "#/components/styles/ThemeSwitcher.astro";
 ---
@@ -17,7 +17,7 @@ import ThemeSwitcher from "#/components/styles/ThemeSwitcher.astro";
     <Font cssVariable="--font-sans" />
     <Font cssVariable="--font-pixelated" />
     <ResetStyles />
-    <ThemeStyles />
+    <CssVars />
   </head>
   <body data-theme="dark">
     <PageLoadThemeScript />

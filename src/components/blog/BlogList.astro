@@ -1,0 +1,82 @@
+---
+import { type CollectionEntry } from "astro:content";
+import { isEqual } from "date-fns";
+import BlogDateText from "./BlogDateText.astro";
+import { presentDate } from "#/utils/present";
+
+interface Props {
+  posts: CollectionEntry<"blog">[];
+}
+
+const { posts } = Astro.props;
+---
+
+<section>
+  {
+    posts.map((p) => (
+      <a href={`/blog/${p.id}`}>
+        <article>
+          <p class="title">{p.data.title}</p>
+          <p class="date">
+            <BlogDateText post={p} />
+          </p>
+          <p class="description">{p.data.description}</p>
+          <div class="tags">
+            {p.data.tags.map((t) => (
+              <span>{t}</span>
+            ))}
+          </div>
+        </article>
+      </a>
+    ))
+  }
+</section>
+
+<style>
+  section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    gap: 2rem;
+  }
+  a {
+    text-decoration: none;
+  }
+  article {
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    background-color: var(--surface0);
+    color: var(--text);
+    will-change: transform, box-shadow;
+    transition:
+      box-shadow var(--transition),
+      transform var(--transition);
+
+    &:hover {
+      box-shadow: 0 0 14px -4px var(--lavender) inset;
+      transform: translateY(2px);
+    }
+
+    .title {
+      font-size: 1.4rem;
+      color: var(--lavender);
+    }
+    .date {
+      margin-bottom: 1rem;
+      font-size: 0.8rem;
+      color: var(--subtext0);
+    }
+    .tags {
+      margin-top: 1rem;
+      display: flex;
+      gap: 0.5rem;
+
+      span {
+        padding: 0.1rem 0.4rem;
+        background-color: var(--lavender);
+        border-radius: var(--radius-full);
+        color: var(--base);
+        font-size: 0.8rem;
+      }
+    }
+  }
+</style>

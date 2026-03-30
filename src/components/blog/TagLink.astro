@@ -1,0 +1,20 @@
+---
+import Tag from "./Tag.astro";
+
+interface Props {
+  text: string;
+  size?: "md" | "lg";
+}
+
+const { ...tagProps } = Astro.props;
+---
+
+<a href={`/blog/tags/${tagProps.text}`}>
+  <Tag {...tagProps} hoverable />
+</a>
+
+<style>
+  a {
+    text-decoration: none;
+  }
+</style>

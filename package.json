@@ -15,7 +15,8 @@
   },
   "dependencies": {
     "@astrojs/mdx": "^5.0.3",
-    "astro": "^6.0.8"
+    "astro": "^6.0.8",
+    "date-fns": "^4.1.0"
   },
   "devDependencies": {
     "prettier": "^3.8.1",

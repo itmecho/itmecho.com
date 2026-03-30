@@ -1,0 +1,50 @@
+---
+import { getCollection } from "astro:content";
+
+import BlogList from "#/components/blog/BlogList.astro";
+import BlogTitle from "#/components/blog/BlogTitle.astro";
+import TagsList from "#/components/blog/TagsList.astro";
+import MainLayout from "#/layouts/MainLayout.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  const grouped: Map<string, (typeof posts)[number][]> = posts.reduce(
+    (m, p) => {
+      for (const t of p.data.tags) {
+        if (!m.has(t)) {
+          m.set(t, []);
+        }
+        m.get(t)!.push(p);
+      }
+      return m;
+    },
+    new Map(),
+  );
+  return grouped
+    .entries()
+    .map(([tag, posts]) => ({
+      params: { tag },
+      props: { posts },
+    }))
+    .toArray();
+}
+
+const { tag } = Astro.params;
+const { posts } = Astro.props;
+---
+
+<MainLayout>
+  <BlogTitle subtitle={`tag:${tag}`} />
+  <div class="content">
+    <BlogList posts={posts} />
+    <TagsList />
+  </div>
+</MainLayout>
+
+<style>
+  .content {
+    display: grid;
+    grid-template-columns: auto 20%;
+    gap: 2rem;
+  }
+</style>

@@ -13,10 +13,16 @@ export default defineConfig({
     },
     {
       provider: fontProviders.fontsource(),
-      name: "PT Sans",
+      name: "Figtree",
       cssVariable: "--font-sans",
+      weights: [300, 400, 500, 600, 700],
     },
   ],
-
+  markdown: {
+    shikiConfig: {
+      theme: "catppuccin-mocha",
+    },
+  },
   integrations: [mdx()],
 });
+
