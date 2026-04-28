@@ -1,7 +1,7 @@
 ---
 title: C, Raylib, and Nix in Neovim
 description: A quick tutorial on how to work on a game using C, Raylib, and Nix within neovim.
-updatedDate: 2026-03-30
+updatedDate: 2026-04-28
 pubDate: 2026-03-30
 tags:
   - programming
@@ -57,8 +57,8 @@ This will give us the following default flake configuration (at the time of writ
 
 ### Setting up the nix flake configuration
 
-Some quick tidy ups of the default configuration will give us a nicer starting point. First, set the
-description, then change the `nixpkgs.url` to use the latest stable version:
+Some quick tidy ups for the default configuration will give us a nicer starting point. First, set
+the description, then change the `nixpkgs.url` to use the latest stable version:
 
 ```nix
 {
@@ -102,7 +102,7 @@ our own which will be in charge of building the game.
             # Define raylib as a build input
             buildInputs = [ pkgs.raylib ];
 
-            # Provide the command to build the game, padding -lraylib to ensure everything gets
+            # Provide the command to build the game, adding -lraylib to ensure everything gets
             # linked correctly.
             buildPhase = ''
               clang -Wall -lraylib ./main.c -o mygame
@@ -162,7 +162,7 @@ git add .
 nix build .
 ```
 
-If all went well, you should now have the the build game in `result/bin/mygame`. If you run it, you
+If all went well, you should now have the game binary at `result/bin/mygame`. If you run it, you
 should see the message printed to the terminal!
 
 ```bash
@@ -196,7 +196,7 @@ int main(void) {
 
 Here, we're initializing a window with the title "mygame", setting the target FPS to 60, and running
 the game loop. All we're doing in the loop is clearing the background using the `BLUE` colour. If we
-build and run it again, we should get a 800x450 window with a blue background!
+build and run it again, we should get an `800x450` window with a blue background!
 
 <Image
   src={basicRaylibBlueWindow} 
@@ -212,7 +212,7 @@ getting set up in Neovim to make working on the code nice and easy.
 
 To get neovim working with autocompletion for raylib, we'll be making use of nix dev shells. This is
 a shell that has access to a set of packages that may or may not be available on your system. We can
-define a dev shell for each system but adding the following to our `flake.nix` file:
+define a dev shell for each system by adding the following to our `flake.nix` file:
 
 ```nix
   outputs = { self, nixpkgs }: let
@@ -239,10 +239,10 @@ define a dev shell for each system but adding the following to our `flake.nix` f
 
 ```
 
-Here we are defining a dev shell that has both `clang` and `raylib` packages available. We also
-define a `shellHook` which runs on entering the shell. This creates a `compile_flags.txt` file which
-configures flags that are given to the compiler. More importantly, it tells `clangd`, the LSP we
-will be using, where to find the `raylib` headers.
+Here we are defining a dev shell that has both `clang` (which includes `clangd`) and `raylib`
+packages available. We also define a `shellHook` which runs on entering the shell. This creates a
+`compile_flags.txt` file which configures flags that are given to the compiler. More importantly,
+it tells `clangd`, the LSP we will be using, where to find the `raylib` headers.
 
 Now we can enter the dev shell by running the following command:
 
@@ -285,15 +285,15 @@ vim.lsp: Enabled Configurations ~
 
 If you have `clangd` available in you system (outside of the nix dev shell), it should automatically
 start up when you open the `src/main.c` file and, if you haven't generated the `compile_flags.txt`
-file, diplay errors because it can't find `raylib.h`. To display a floating window with the first
-error, run `:lua vim.diagnostic.goto_next()`.
+file yet, diplay errors because it can't find `raylib.h`. To display a floating window with the
+first error, run `:lua vim.diagnostic.goto_next()`.
 
 <Image
   src={clangdRaylibErrors} 
   alt="Screenshot of neovim with errors indicating that functions from raylib.h are not available."
 />
 
-Now all you need to do is run `nix develop` and then open the src/main.c file again and you should
+Now all you need to do is run `nix develop` and then open the `src/main.c` file again and you should
 see that the errors are gone! You can also trigger omnicompletion by pressing `<C-x><C-o>`, and see
 hover documentation by pressing `K` with the cursor on a function.
 
