@@ -1,15 +1,10 @@
 ---
-import { getCollection } from "astro:content";
-import { isEqual, format } from "date-fns";
-
 import BlogList from "#/components/blog/BlogList.astro";
 import TagsList from "#/components/blog/TagsList.astro";
 import MainLayout from "#/layouts/MainLayout.astro";
+import { getBlogPosts } from "#/utils/blog";
 
-const allPosts = await getCollection("blog");
-const posts = import.meta.env.DEV
-  ? allPosts
-  : allPosts.filter((p) => !!p.data.pubDate);
+const posts = await getBlogPosts({ includeDrafts: import.meta.env.DEV });
 ---
 
 <MainLayout>
