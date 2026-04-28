@@ -1,0 +1,12 @@
+---
+import MainLayout from "#/layouts/MainLayout.astro";
+import { getCollection } from "astro:content";
+
+const recipes = await getCollection("recipes");
+console.log({ recipes });
+---
+
+<MainLayout>
+  <h2>Recipes</h2>
+  {recipes.map((r) => <p>{r.data.title}</p>)}
+</MainLayout>

@@ -16,4 +16,14 @@ const blog = defineCollection({
   }),
 });
 
-export const collections = { blog };
+const recipes = defineCollection({
+  loader: glob({ base: "./src/content/recipes", pattern: "**/*.{yaml,yml}" }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    ingredients: z.string().array().min(1),
+    method: z.string().array().min(1),
+  }),
+});
+
+export const collections = { blog, recipes };

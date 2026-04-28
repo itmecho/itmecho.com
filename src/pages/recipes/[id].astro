@@ -1,0 +1,19 @@
+---
+import { render } from "astro:content";
+import { getCollection } from "astro:content";
+
+import MainLayout from "#/layouts/MainLayout.astro";
+
+export async function getStaticPaths() {
+  const recipes = await getCollection("recipes");
+  return recipes.map((r) => ({
+    params: { id: r.id },
+    props: { recipe: r },
+  }));
+}
+
+const { recipe } = Astro.props;
+---
+
+<MainLayout>
+</MainLayout>
