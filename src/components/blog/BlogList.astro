@@ -1,8 +1,6 @@
 ---
 import { type CollectionEntry } from "astro:content";
-import { isEqual } from "date-fns";
 import BlogDateText from "./BlogDateText.astro";
-import { presentDate } from "#/utils/present";
 
 interface Props {
   posts: CollectionEntry<"blog">[];

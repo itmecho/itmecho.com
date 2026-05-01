@@ -111,7 +111,8 @@ const { Content, headings } = await render(post);
       border-bottom: 1px solid var(--surface2);
     }
     > p,
-    > ul {
+    > ul,
+    > ol {
       font-size: 1.2rem;
     }
     > p {
@@ -125,14 +126,19 @@ const { Content, headings } = await render(post);
         color: var(--teal);
       }
     }
-    > ul {
+    > ul, ol {
       margin-left: 2rem;
 
       li {
         margin-bottom: 0.5rem;
-        list-style: disc;
         padding-left: 1rem;
       }
+    }
+    > ul li {
+      list-style: disc;
+    }
+    > ol li {
+      list-style: number;
     }
     > pre.astro-code {
       margin: 2rem 0;

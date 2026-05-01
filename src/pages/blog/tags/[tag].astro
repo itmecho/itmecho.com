@@ -1,13 +1,12 @@
 ---
-import { getCollection } from "astro:content";
-
 import BlogList from "#/components/blog/BlogList.astro";
 import BlogTitle from "#/components/blog/BlogTitle.astro";
 import TagsList from "#/components/blog/TagsList.astro";
 import MainLayout from "#/layouts/MainLayout.astro";
+import { getBlogPosts } from "#/utils/blog";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog");
+  const posts = await getBlogPosts({ includeDrafts: import.meta.env.DEV });
   const grouped: Map<string, (typeof posts)[number][]> = posts.reduce(
     (m, p) => {
       for (const t of p.data.tags) {

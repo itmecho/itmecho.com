@@ -8,9 +8,13 @@ interface Props {
 }
 
 const { post } = Astro.props;
+const updatedDate =
+  !!post.data.pubDate &&
+  !!post.data.updatedDate &&
+  !isEqual(post.data.pubDate, post.data.updatedDate) &&
+  post.data.updatedDate;
 ---
 
 {post.data.pubDate ? presentDate(post.data.pubDate) : "draft"}{
-  !isEqual(post.data.pubDate ?? 0, post.data.updatedDate) &&
-    ` (updated ${presentDate(post.data.updatedDate)})`
+  updatedDate && ` (updated ${presentDate(updatedDate)})`
 }
