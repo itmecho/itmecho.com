@@ -7,19 +7,36 @@ const recipes = await getCollection("recipes");
 
 <MainLayout>
   <h1>Recipes</h1>
-  <ul>
+  <section>
     {
       recipes.map((r) => (
-        <li>
+        <article>
           <a href={`recipes/${r.id}`}>{r.data.title}</a>
-        </li>
+          <p>{r.data.description}</p>
+        </article>
       ))
     }
-  </ul>
+  </section>
 </MainLayout>
 
 <style>
   h1 {
     margin-bottom: 2rem;
+  }
+  section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+
+    a {
+      display: block;
+      margin-bottom: 0.25rem;
+      font-size: 1.2rem;
+      font-weight: 400;
+    }
+
+    article p {
+      text-wrap: wrap;
+    }
   }
 </style>

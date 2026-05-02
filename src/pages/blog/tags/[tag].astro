@@ -1,7 +1,6 @@
 ---
 import BlogList from "#/components/blog/BlogList.astro";
 import BlogTitle from "#/components/blog/BlogTitle.astro";
-import TagsList from "#/components/blog/TagsList.astro";
 import MainLayout from "#/layouts/MainLayout.astro";
 import { getBlogPosts } from "#/utils/blog";
 
@@ -34,16 +33,5 @@ const { posts } = Astro.props;
 
 <MainLayout>
   <BlogTitle subtitle={`tag:${tag}`} />
-  <div class="content">
-    <BlogList posts={posts} />
-    <TagsList />
-  </div>
+  <BlogList posts={posts} />
 </MainLayout>
-
-<style>
-  .content {
-    display: grid;
-    grid-template-columns: auto 20%;
-    gap: 2rem;
-  }
-</style>

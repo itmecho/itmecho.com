@@ -23,21 +23,23 @@ const { Content, headings } = await render(post);
 <MainLayout>
   <div class="content-wrapper">
     <BlogTitle subtitle={post.data.title} />
-    <div class="metadata">
-      <p>
-        <PostDateText post={post} />
-      </p>
-      <div class="tags">
-        Tags: {post.data.tags.map((t) => <TagLink text={t} />)}
-      </div>
-    </div>
+    <p class="metadata">
+      <PostDateText post={post} /> - {
+        post.data.tags.map((t) => <TagLink text={t} />)
+      }
+    </p>
     {
       post.data.showContents && (
         <>
           <nav>
             <h2>Contents</h2>
             {headings.map((h) => (
-            <a href={`#${h.slug}`} style={{marginLeft: `${h.depth-2}rem`}}>{h.text}</a>
+              <a
+                href={`#${h.slug}`}
+                style={{ marginLeft: `${h.depth - 2}rem` }}
+              >
+                {h.text}
+              </a>
             ))}
           </nav>
           <hr />
@@ -71,7 +73,7 @@ const { Content, headings } = await render(post);
 <style>
   .content-wrapper {
     h1 {
-      margin-bottom: 3rem;
+      margin: 0.5rem 0;
     }
     h2 {
       margin: 2rem 0 1rem;
@@ -80,15 +82,9 @@ const { Content, headings } = await render(post);
       margin: 2rem 0 1rem;
     }
     .metadata {
-      margin-bottom: 3rem;
-      font-size: 1.2rem;
-
-      .tags {
-        margin-top: 0.5rem;
-        display: flex;
-        gap: 0.5rem;
-        align-items: center;
-      }
+      margin-top: 0rem;
+      margin-bottom: 2rem;
+      font-size: 1rem;
     }
 
     > nav a {

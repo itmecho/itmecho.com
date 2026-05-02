@@ -1,6 +1,5 @@
 ---
 import BlogList from "#/components/blog/BlogList.astro";
-import TagsList from "#/components/blog/TagsList.astro";
 import MainLayout from "#/layouts/MainLayout.astro";
 import { getBlogPosts } from "#/utils/blog";
 
@@ -8,22 +7,12 @@ const posts = await getBlogPosts();
 ---
 
 <MainLayout>
-  <h2>Blog</h2>
-  <div class="content">
-    <BlogList posts={posts} />
-    <TagsList />
-  </div>
+  <h1>Blog</h1>
+  <BlogList posts={posts} />
 </MainLayout>
 
 <style>
   h2 {
-    margin-bottom: 2rem;
-    font-size: 3rem;
-    font-weight: 300;
-  }
-  .content {
-    display: grid;
-    grid-template-columns: auto 20%;
-    gap: 2rem;
+    margin-bottom: 1rem;
   }
 </style>
