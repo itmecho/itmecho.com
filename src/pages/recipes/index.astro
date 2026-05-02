@@ -1,0 +1,25 @@
+---
+import MainLayout from "#/layouts/MainLayout.astro";
+import { getCollection } from "astro:content";
+
+const recipes = await getCollection("recipes");
+---
+
+<MainLayout>
+  <h1>Recipes</h1>
+  <ul>
+    {
+      recipes.map((r) => (
+        <li>
+          <a href={`recipes/${r.id}`}>{r.data.title}</a>
+        </li>
+      ))
+    }
+  </ul>
+</MainLayout>
+
+<style>
+  h1 {
+    margin-bottom: 2rem;
+  }
+</style>

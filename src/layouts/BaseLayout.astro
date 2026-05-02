@@ -44,3 +44,41 @@ import ThemeSwitcher from "#/components/styles/ThemeSwitcher.astro";
     }
   }
 </style>
+
+<style is:global>
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 300;
+  }
+  h1 {
+    font-size: 3rem;
+  }
+  h2 {
+    font-size: 2.5rem;
+  }
+  h3 {
+    font-size: 2rem;
+  }
+  ul,
+  ol {
+    margin-left: 2rem;
+
+    li {
+      margin-bottom: 0.5rem;
+      padding-left: 1rem;
+    }
+  }
+  ul li {
+    list-style: disc;
+  }
+  ol li {
+    list-style: number;
+  }
+  a, a:visited {
+    color: var(--green);
+  }
+</style>

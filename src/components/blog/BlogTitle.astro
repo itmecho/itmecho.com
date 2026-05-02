@@ -13,9 +13,9 @@ const { subtitle } = Astro.props;
     </a>
   )
 }
-<h2>
+<h1>
   {subtitle ? subtitle : "Blog"}
-</h2>
+</h1>
 
 <style>
   a.back {
@@ -31,9 +31,8 @@ const { subtitle } = Astro.props;
     }
   }
 
-  h2 {
+  h1 {
     margin-bottom: 2rem;
-    font-size: 3rem;
     font-weight: 300;
 
     a {
