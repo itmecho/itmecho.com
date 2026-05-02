@@ -1,8 +1,8 @@
-import { getBlogPosts } from "#/utils/blog";
 import rss from "@astrojs/rss";
+import { getCollection } from "astro:content";
 
 export async function GET(context: { site: string }) {
-  const posts = await getBlogPosts({ includeDrafts: false });
+  const posts = await getCollection("blog");
   return rss({
     title: "itmecho: Blog",
     description: "Just some blog posts",

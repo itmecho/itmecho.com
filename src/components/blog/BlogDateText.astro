@@ -15,6 +15,6 @@ const updatedDate =
   post.data.updatedDate;
 ---
 
-{post.data.pubDate ? presentDate(post.data.pubDate) : "draft"}{
+{presentDate(post.data.pubDate)}{
   updatedDate && ` (updated ${presentDate(updatedDate)})`
 }

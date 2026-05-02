@@ -6,7 +6,7 @@ import MainLayout from "#/layouts/MainLayout.astro";
 import { getBlogPosts } from "#/utils/blog";
 
 export async function getStaticPaths() {
-  const posts = await getBlogPosts({ includeDrafts: import.meta.env.DEV });
+  const posts = await getBlogPosts();
   const grouped: Map<string, (typeof posts)[number][]> = posts.reduce(
     (m, p) => {
       for (const t of p.data.tags) {

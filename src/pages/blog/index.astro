@@ -4,7 +4,7 @@ import TagsList from "#/components/blog/TagsList.astro";
 import MainLayout from "#/layouts/MainLayout.astro";
 import { getBlogPosts } from "#/utils/blog";
 
-const posts = await getBlogPosts({ includeDrafts: import.meta.env.DEV });
+const posts = await getBlogPosts();
 ---
 
 <MainLayout>
