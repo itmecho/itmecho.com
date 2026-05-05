@@ -1,11 +1,12 @@
 ---
 interface Props {
   text: string;
+  count?: number;
   size?: "md" | "lg";
   hoverable?: boolean;
 }
 
-const { text, hoverable, size = "md" } = Astro.props;
+const { text, count, hoverable, size = "md" } = Astro.props;
 ---
 
 <span
@@ -15,7 +16,7 @@ const { text, hoverable, size = "md" } = Astro.props;
       md: size === "md",
       lg: size === "lg",
     },
-  ]}>{text}</span
+  ]}>{text}{count && ` (${count})`}</span
 >
 
 <style>

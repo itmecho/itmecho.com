@@ -1,0 +1,48 @@
+---
+import BlogTitle from "#/components/blog/BlogTitle.astro";
+import TagLink from "#/components/blog/TagLink.astro";
+import MainLayout from "#/layouts/MainLayout.astro";
+import { getBlogPosts } from "#/utils/blog";
+
+const posts = await getBlogPosts();
+const allTags = posts.flatMap((p) => p.data.tags);
+const m = new Map<string, number>();
+for (const tag of allTags) {
+  const count = m.get(tag) ?? 0;
+  m.set(tag, count + 1);
+}
+const tags = Array.from(m.entries().map(([tag, count]) => ({ tag, count })));
+tags.sort((a, b) => a.tag.localeCompare(b.tag));
+---
+
+<MainLayout>
+  <BlogTitle subtitle="Blog > Tags" />
+  <ul>
+    {
+      tags.map(({ tag, count }) => (
+        <li>
+          <TagLink text={tag} count={count} size="lg" />
+        </li>
+      ))
+    }
+  </ul>
+</MainLayout>
+
+<style>
+  h1 {
+    margin-bottom: 2rem;
+  }
+  ul {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+
+    li {
+      padding: 0;
+      list-style: none;
+    }
+  }
+</style>
