@@ -121,6 +121,11 @@ const { Content, headings } = await render(post);
       padding: 2rem;
       border-radius: var(--radius-md);
       line-height: 1.5rem;
+
+      @media screen and (max-width: 600px) {
+        margin: 1rem 0;
+        padding: 1rem;
+      }
     }
     > img {
       margin: 0 auto;
