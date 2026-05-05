@@ -1,5 +1,6 @@
 ---
 import BlogList from "#/components/blog/BlogList.astro";
+import Icon from "#/components/icons/Icon.astro";
 import MainLayout from "#/layouts/MainLayout.astro";
 import { getBlogPosts } from "#/utils/blog";
 
@@ -7,12 +8,20 @@ const posts = await getBlogPosts();
 ---
 
 <MainLayout>
-  <h1>Blog</h1>
+  <h1>
+    Blog
+    <a href="/blog/rss.xml">
+      <Icon icon="rss" />
+    </a>
+  </h1>
   <BlogList posts={posts} />
 </MainLayout>
 
 <style>
-  h2 {
+  h1 {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
     margin-bottom: 1rem;
   }
 </style>
