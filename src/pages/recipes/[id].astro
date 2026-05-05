@@ -1,5 +1,4 @@
 ---
-import { render } from "astro:content";
 import { getCollection } from "astro:content";
 
 import MainLayout from "#/layouts/MainLayout.astro";
@@ -18,6 +17,7 @@ const { recipe } = Astro.props;
 <MainLayout>
   <a href="/recipes">&laquo; back to recipes</a>
   <h1>{recipe.data.title}</h1>
+  <p>{recipe.data.description}</p>
   <h2>Ingredients</h2>
   <ul>
     {recipe.data.ingredients.map((i) => <li>{i}</li>)}
@@ -31,6 +31,9 @@ const { recipe } = Astro.props;
 <style>
   h1 {
     margin: 1rem auto;
+  }
+  p {
+    margin-bottom: 2rem;
   }
   h2 {
     margin-bottom: 1rem;
