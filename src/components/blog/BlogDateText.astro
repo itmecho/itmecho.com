@@ -1,5 +1,6 @@
 ---
 import { presentDate } from "#/utils/present";
+import { getPubDate } from "#/utils/blog";
 import type { CollectionEntry } from "astro:content";
 import { isEqual } from "date-fns";
 
@@ -8,15 +9,15 @@ interface Props {
 }
 
 const { post } = Astro.props;
+const pubDate =  getPubDate(post);
 const updatedDate =
-  !!post.data.pubDate &&
   !!post.data.updatedDate &&
-  !isEqual(post.data.pubDate, post.data.updatedDate) &&
+  !isEqual(pubDate, post.data.updatedDate) &&
   post.data.updatedDate;
 ---
 
 <time>
-  {presentDate(post.data.pubDate)}{
+  {presentDate(pubDate)}{
     updatedDate && ` (updated ${presentDate(updatedDate)})`
   }
 </time>

@@ -1,3 +1,4 @@
+import { getPubDate } from "#/utils/blog";
 import rss from "@astrojs/rss";
 import { getCollection } from "astro:content";
 
@@ -9,7 +10,7 @@ export async function GET(context: { site: string }) {
     site: context.site,
     items: posts.map((post) => ({
       title: post.data.title,
-      pubDate: post.data.pubDate,
+      pubDate: getPubDate(post),
       description: post.data.description,
       link: `/blog/${post.id}/`,
     })),
