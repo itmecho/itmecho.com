@@ -1,0 +1,58 @@
+---
+title: "psql: editing queries in your $EDITOR"
+description: A brief look at the \edit command within psql
+tags:
+  - programming
+  - db
+---
+
+I was recently using `psql` to check some data and wondered if there was a nice way to edit the query in `neovim`. After a little Googling I came across the `\edit` command, or `\e` for short!
+
+`\edit` opens the query buffer in your editor, exactly what I was hoping for! Once you've finished editing your query, you can write and quit which then returns control to `psql`. It then executes the query up to the last `;` and dumps the rest of the query into the buffer. If you don't include a `;` in your query, it will not execute anything and just put the query into the buffer.
+
+```sql
+somedb=> \edit
+-- Here I entered "SELECT 1; SELECT 2; SELECT 3", wrote the file, and quit the editor.
+ ?column?
+----------
+        1
+(1 row)
+
+ ?column?
+----------
+        2
+(1 row)
+
+somedb=> SELECT 3
+somedb->
+```
+
+If you then want to clear out the buffer, you can type `\reset` (or `\r` for short) then press `Enter` to reset the query buffer.
+
+```sql
+somedb=> SELECT 3
+somedb-> \reset
+Query buffer reset (cleared).
+somedb=> 
+```
+
+If you want to execute it, you're just back in the normal query buffer so you can edit the query and end it with a semi-colon (`;`) then press `Enter`! If your query makes use of other commands, you will need to use `\g` instead.
+
+```sql
+somedb=> SELECT 3;
+ ?column?
+----------
+ 3
+(1 row)
+
+-- or
+somedb=> SELECT $1 \bind 3 \g
+ ?column?
+----------
+ 3
+(1 row)
+```
+
+## Bonus
+
+`psql` will use the editor configured in the `EDITOR` environment variable but if for some reason you want to use a different editor just for `psql`, you can set the `PSQL_EDITOR` environment variable and it will use that instead!
