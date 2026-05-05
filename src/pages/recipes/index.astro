@@ -35,8 +35,14 @@ const recipes = await getCollection("recipes");
       font-weight: 400;
     }
 
+    article {
+      overflow: hidden;
+    }
+
     article p {
-      text-wrap: wrap;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
     }
   }
 </style>
