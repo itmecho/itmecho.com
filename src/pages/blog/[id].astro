@@ -91,6 +91,7 @@ const { Content, headings } = await render(post);
       display: block;
       margin-bottom: 0.5rem;
       color: var(--green);
+      font-size: 1.2rem;
 
       &:last-of-type {
         margin-bottom: 0;
@@ -116,11 +117,22 @@ const { Content, headings } = await render(post);
         color: var(--teal);
       }
     }
+    pre,
+    code,
+    samp,
+    kbd {
+      font-family: var(--font-mono);
+      font-size: 1rem;
+    }
     > pre.astro-code {
       margin: 2rem 0;
       padding: 2rem;
       border-radius: var(--radius-md);
       line-height: 1.5rem;
+
+      code {
+        font-size: 1.1rem;
+      }
 
       @media screen and (max-width: 600px) {
         margin: 1rem 0;

@@ -18,6 +18,12 @@ export default defineConfig({
       cssVariable: "--font-sans",
       weights: [300, 400, 500, 600, 700],
     },
+    {
+      provider: fontProviders.fontsource(),
+      name: "Adwaita Mono",
+      cssVariable: "--font-mono",
+      weights: [400, 700],
+    },
   ],
   markdown: {
     shikiConfig: {
