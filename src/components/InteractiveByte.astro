@@ -1,0 +1,91 @@
+---
+import Icon from "#/components/icons/Icon.astro";
+---
+
+<div id="hex-counter">
+  <div class="controls">
+    <input type="range" min="0" max="255" value="0" />
+    <button><Icon icon="play-pause" /></button>
+  </div>
+  <pre>
+Decimal:     <span id="dec" />
+Binary:      <span id="bin" />
+Hexidecimal: <span id="hex" />
+</pre>
+</div>
+<script>
+  (() => {
+    const slider = document.querySelector<HTMLInputElement>(
+      '#hex-counter input[type="range"]',
+    );
+    const btn = document.querySelector<HTMLButtonElement>(
+      "#hex-counter button",
+    );
+    const dec = document.querySelector<HTMLDivElement>("#dec");
+    const bin = document.querySelector<HTMLDivElement>("#bin");
+    const hex = document.querySelector<HTMLDivElement>("#hex");
+    if (!slider || !btn || !dec || !bin || !hex) return;
+    let interval: number | null = null;
+    const update = () => {
+      const v = parseInt(slider.value);
+      dec.innerText = `${v}`;
+      bin.innerText = `0b${v.toString(2).padStart(8, "0")}`;
+      hex.innerText = `0x${v.toString(16).padStart(2, "0")}`;
+    };
+    const toggle = () => {
+      if (interval !== null) {
+        clearInterval(interval);
+        interval = null;
+        return;
+      }
+      interval = setInterval(() => {
+        const v = parseInt(slider.value);
+        if (v < 255) {
+          slider.value = `${v + 1}`;
+        } else {
+          slider.value = "0";
+        }
+        update();
+      }, 200);
+    };
+    slider.addEventListener("input", update);
+    btn.addEventListener("pointerup", toggle);
+    update();
+  })();
+</script>
+
+<style>
+  #hex-counter {
+    margin: 2rem;
+
+    .controls {
+      max-width: 300px;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+
+      input[type="range"] {
+        flex-grow: 1;
+      }
+
+      button {
+        padding: 0.5rem;
+        background-color: var(--surface1);
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        color: var(--text);
+        transition: background-color 150ms ease-in-out;
+        will-change: background-color;
+
+        &:hover {
+          background-color: var(--surface2);
+        }
+      }
+    }
+    pre {
+      font-family: var(--font-mono);
+      font-size: 1.5rem;
+    }
+  }
+</style>
