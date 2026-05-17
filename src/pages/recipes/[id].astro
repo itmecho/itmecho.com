@@ -26,17 +26,26 @@ const { recipe } = Astro.props;
   <ol>
     {recipe.data.method.map((i) => <li>{i}</li>)}
   </ol>
+  {
+    !!recipe.data.notes?.length && (
+      <>
+        <h2>Notes</h2>
+        <ul>
+          {recipe.data.notes.map((i) => (
+            <li>{i}</li>
+          ))}
+        </ul>
+      </>
+    )
+  }
 </MainLayout>
 
 <style>
   h1 {
     margin: 0.5rem auto 1rem;
   }
-  p {
-    margin-bottom: 2rem;
-  }
   h2 {
-    margin-bottom: 1rem;
+    margin: 2rem 0 1rem;
   }
   h3 {
     margin: 1rem auto;

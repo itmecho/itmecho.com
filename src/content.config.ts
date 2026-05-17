@@ -36,6 +36,7 @@ const recipes = defineCollection({
     description: z.string(),
     ingredients: z.string().array().min(1),
     method: z.string().array().min(1),
+    notes: z.string().array().optional(),
   }),
 });
 
