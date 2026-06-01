@@ -1,0 +1,99 @@
+---
+title: "Go: running a command in the background"
+description: A quick guide to running commands in the background using golang
+tags:
+  - programming
+---
+
+I often write tools for work where I want to run a command in the background, for example a kubectl port forward. Go makes this process super simple!
+
+Start off by creating the command and hooking it up to the `stdout`/`stderr` of the main process. Doing this means that any output or errors show up in the output of the go program. I'll use the previously mentioned `kubectl port-forward` as an example.
+
+```go
+cmd := exec.CommandContext(ctx, "kubectl", "port-forward", "svc/some-service", "3000:3000")
+cmd.Stdout = os.Stdout
+cmd.Stderr = os.Stderr
+```
+
+Now normally you would call `cmd.Run()` which runs the command to completion and returns any errors that occurred (non-zero exit codes, etc). As we want to run it in the background, we instead call `cmd.Start()`. This will return any startup errors and then continue on, leaving the process running in the background.
+
+To handle stopping the process when it's no longer needed, we can return a cleanup function which will send a signal to the process to tell it to stop. This is done by checking that the `cmd.ProcessState` hasn't been set (it's only set when the process exits) and then sending an interrupt signal to the process. If you want to be more aggressive, send a kill signal instead! Returning this function allows us to nicely defer the cleanup after starting the command.
+
+```go
+return func() {
+	if cmd.ProcessState == nil {
+		cmd.Process.Signal(os.Interrupt)
+	}
+}, nil
+```
+
+Here's an example of how that might look all together in a full program
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"log/slog"
+	"os"
+	"os/exec"
+	"os/signal"
+)
+
+func main() {
+	if err := run(context.Background()); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+}
+
+func run(ctx context.Context) error {
+	ctx, stop := signal.NotifyContext(ctx, os.Interrupt, os.Kill)
+	defer stop()
+
+	data, err := getMetrics(ctx, "svc/some-service")
+	if err != nil {
+		return fmt.Errorf("failed to get metrics: %w", err)
+	}
+	// The port forward should no longer be running at this point as the defer in
+	// getMetrics will have run which kills the process.
+
+	// Do something with data
+	fmt.Println(data)
+
+	return nil
+}
+
+func getMetrics(ctx context.Context, target string) (string, error) {
+	stopPortForward, err := portForward(ctx, target, "9090:9090")
+	if stopPortForward != nil {
+		defer stopPortForward()
+	}
+	if err != nil {
+		return "", err
+	}
+
+	var output string
+	// Do something here like http.Get("localhost:9090/metrics")
+	return output, nil
+}
+
+func portForward(ctx context.Context, target, ports string) (func(), error) {
+	cmd := exec.CommandContext(ctx, "kubectl", "port-forward", target, ports)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	if err := cmd.Start(); err != nil {
+		return nil, fmt.Errorf("failed to start port-forward: %w", err)
+	}
+	return func() {
+		if cmd.ProcessState == nil {
+			if err := cmd.Process.Signal(os.Interrupt); err != nil {
+				slog.ErrorContext(ctx, "failed to kill proxy process", slog.String("error", err.Error()))
+			}
+		}
+	}, nil
+}
+```
+
+Obviously there's error handling here that I haven't covered for the cases where the command exits due to some error before we have used the port forward but that's for another day.
