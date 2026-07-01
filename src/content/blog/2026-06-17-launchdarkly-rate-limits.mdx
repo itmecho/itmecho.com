@@ -3,6 +3,7 @@ title: "Handling LaunchDarkly rate limits"
 description: How I handled launch darkly rate limits when trying to update segments programatically
 tags:
   - programming
+  - go
 ---
 
 At work we use LaunchDarkly for feature flags. As part of a migration process, we update a segment to remove a value on successful migration. This has been working fine but whilst scaling up the process, we started to hit the rate limit on the segment `PATCH` endpoint. As far as I can tell, the current limit is 5 requests within 10 seconds.

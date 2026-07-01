@@ -1,0 +1,34 @@
+---
+title: Hardware acceleration with Jellyfin on Docker and NixOS
+description: How I got hardware acceleration working in my Jellyfin docker container running on a NixOS host
+tags:
+  - programming
+  - bash
+---
+
+Whilst working on a script for work, I was getting a confusing error.
+
+```
+./some-script.sh: line 57: IDS: unbound variable
+```
+
+This might not seem confusing at first but this was the code (changed for obvious reasons) on line 56 and 57:
+
+```bash
+local ids=$(curl -sSL https://jsonplaceholder.typicode.com/todos | jq -r .[].id)
+echo "Found ${#ids[@]} ids" # Error here
+```
+
+After a little searching, it turns out the shell expansion on line 56 stores the value as a plain string but on line 57, I'm accessing it as an array which causes the unbound error!
+
+The fix is to use `mapfile` instead to store it as an array.
+
+```bash
+local ids
+mapfile -t ids < <(curl -sSL https://jsonplaceholder.typicode.com/todos | jq -r .[].id)
+echo "Found ${#ids[@]} ids" # Prints "Found 200 ids"
+```
+
+## Note
+
+It's worth saying that I only got this error because I had `set -u` (actually the classic `set -euo pipefail`) at the start of the script. If you don't have it, it prints "Found 1 ids" instead and treats it like an array with one item containing the long output string.
