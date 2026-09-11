@@ -1,0 +1,38 @@
+---
+title: "bash: sum a list of numbers"
+description: Calculate the sum of a list of numbers
+tags:
+  - programming
+  - bash
+---
+
+I had some output from a command where I wanted to extract a number from each line and get the total across all lines.
+
+Each line in the file looks roughly like this: ` (string) "somedata": (int) 13,`.
+
+I first set out by extracting the number using `awk`:
+
+```sh
+$ awk '{gsub(/,/, "", $NF); print $NF}' /tmp/data.txt
+...
+12
+173
+3
+14
+86
+...
+```
+
+Now that I had a list of numbers, I just needed to add them up! `bc` is the tool to do this but I first needed to format it into a mathematical expression for `bc` to parse. This is where the `paste` command came in! It takes lines as input and lets you replace the newline character with another character, in my case `+`.
+
+```sh
+$ awk '{gsub(/,/, "", $NF); print $NF}' /tmp/data.txt | paste -sd+ -
+...+12+173+3+14+86+...
+```
+
+Perfect! Now I could just pipe it to `bc` and get the output I was after!
+
+```sh
+$ awk '{gsub(/,/, "", $NF); print $NF}' /tmp/data.txt | paste -sd+ - | bc
+20798
+```
