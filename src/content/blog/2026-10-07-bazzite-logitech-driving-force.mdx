@@ -1,0 +1,30 @@
+---
+title: "Getting my old driving wheel working on bazzite"
+description: How I fixed an issue playing Dirt Rally 2.0 with an old driving wheel running on bazzite
+tags:
+  - linux
+  - gaming
+---
+
+I recently got back into playing [Dirt Rally 2.0](https://store.steampowered.com/app/690790/DiRT_Rally_20/) and I remembered that I had an old PS2 era driving wheel! Time to delve into the attic and get it set up.
+
+I found it, got it all hooked up to my PC, then booted up Dirt Rally 2.0. Uh oh, it wasn't seeing the wheel as an input device. At first I thought maybe it's just too old and not supported but a quick search showed that the driver is included in the linux kernel so that shouldn't be the issue. I looked around and came across [oversteer](https://github.com/berarma/oversteer), a driving wheel manager for Linux. I downloaded the AppImage and ran it. It showed that the inputs were all working correctly. This meant the problem must be between the OS and the game.
+
+As the game was running under proton, I did some more searching and found that some versions of proton had issues with [`hidraw` (Human Interface Device RAW)](https://docs.kernel.org/hid/hidraw.html). I also stumbled across the `PROTON_ENABLE_HIDRAW` environment variable which you can set to a specific device identifier.
+
+To find the device ID, I ran the following command:
+
+```sh
+$ lsusb | rg -i logitech
+Bus 001 Device 004: ID 046d:c294 Logitech, Inc. Driving Force
+#                      ^    ^ Device number
+#                      | Bus Number
+```
+
+Great! Now I just needed to plug that into the steam launch options for Dirt Rally 2.0
+
+```
+PROTON_ENABLE_HIDRAW=0x046d/0xc294 %command%
+```
+
+Hey presto, the game was now seeing the wheel! I ran the in game calibration tool and then I was "off to the races".
