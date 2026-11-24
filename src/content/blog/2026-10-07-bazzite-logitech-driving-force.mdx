@@ -1,6 +1,7 @@
 ---
 title: "Getting my old driving wheel working on bazzite"
 description: How I fixed an issue playing Dirt Rally 2.0 with an old driving wheel running on bazzite
+updatedDate: 2026-11-24
 tags:
   - linux
   - gaming
@@ -28,3 +29,15 @@ PROTON_ENABLE_HIDRAW=0x046d/0xc294 %command%
 ```
 
 Hey presto, the game was now seeing the wheel! I ran the in game calibration tool and then I was "off to the races".
+
+# Update - Logitech G923
+
+I upgraded to the Logitech G923!
+
+I now have to run the following command on start up to get the wheel to work in Dirt Rally:
+
+```sh
+sudo usb_modeswitch -v 046d -p c26d -M 0f00010142 -C 0x03 -m 01 -r 01
+```
+
+This causes the wheel to boot into full mode instead of a restricted mode. After running this, I can run Oversteer and select my profile.
